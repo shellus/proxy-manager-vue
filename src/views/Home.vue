@@ -4,6 +4,7 @@
         width: 8em;
         text-align: center;
         color: #42b983;
+        margin-left: 10px;
     }
 
     .el-alert {
@@ -13,7 +14,7 @@
 </style>
 <template>
     <div>
-        <div class="block" style="width: 35em;">
+        <div class="block">
             <h3>服务状态：</h3>
             <hr>
             <el-alert
