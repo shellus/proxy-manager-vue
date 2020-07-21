@@ -4,26 +4,37 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+const routes = [
+    {
+        path: '/',
+        name: 'Home',
+        meta: {title: '首页'},
+        component: Home,
+    },
+    {
+        path: '/certificate/certificate/index',
+        name: 'CertificateIndex',
+        meta: {title: '证书管理'},
+        component: () => import('@/views/certificate/CertificateIndex.vue')
+    },
+    {
+        path: '/certificate/certificate-config/index',
+        name: 'CertificateConfigIndex',
+        meta: {title: '证书签发配置'},
+        component: () => import('@/views/certificate/CertificateConfigIndex.vue')
+    },
+    {
+        path: '/proxy/host/index',
+        name: 'ProxyHostIndex',
+        meta: {title: '代理列表'},
+        component: () => import('@/views/proxy/ProxyHostIndex.vue')
+    },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router

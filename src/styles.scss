@@ -1,0 +1,40 @@
+/* theme color */
+$--color-primary: #2256e5;
+$--border-radius-base: 0;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+body, html {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.block {
+    background-color: white;
+    margin: 15px 0;
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px #f1f1f1;
+
+    > img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    &.inline {
+        display: inline-block;
+    }
+}
+
+.min-form {
+    width: 30em;
+}
+
+.page-header {
+    text-align: right;
+}
