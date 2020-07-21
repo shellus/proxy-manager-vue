@@ -17,30 +17,25 @@
             <h3>服务状态：</h3>
             <hr>
             <el-alert
-                title="检测到 Nginx 版本: (1.17.1)"
+                v-for="(e, i) of errMessages" :key="i"
+                :title="e"
+                type="error"
+                :closable="false"
+                effect="light">
+            </el-alert>
+            <el-alert
+                v-if="nginx_version"
+                :title="`检测到 Nginx 版本: (${nginx_version})`"
                 type="success"
                 :closable="false"
                 effect="light">
             </el-alert>
             <el-alert
-                v-if="false"
-                title="未检测到 Nginx，请检查环境变量"
-                type="error"
-                :closable="false"
-                effect="dark">
-            </el-alert>
-            <el-alert
-                title="检测到 acme.sh 版本: (v2.8.7)"
+                v-if="acmesh_version"
+                :title="`检测到 acme.sh 版本: (${acmesh_version})`"
                 type="success"
                 :closable="false"
                 effect="light">
-            </el-alert>
-            <el-alert
-                v-if="false"
-                title="未检测到 acme.sh，请检查环境变量"
-                type="error"
-                :closable="false"
-                effect="dark">
             </el-alert>
         </div>
         <div>
@@ -49,7 +44,7 @@
                     <i style="font-size: 5em; color: #00458a;" class="el-icon-help"></i>
                 </div>
                 <div>
-                    Nginx状态正常
+                    代理数量：{{ proxy_count }}
                 </div>
             </div>
             <div class="status block">
@@ -57,7 +52,7 @@
                     <i style="font-size: 5em; color: #5c5c5c;" class="el-icon-edit"></i>
                 </div>
                 <div>
-                    SSL配置完整
+                    证书数量： {{ certificate_count }}
                 </div>
             </div>
         </div>
@@ -68,5 +63,23 @@
 <script>
     export default {
         name: 'Home',
+        data(){
+            return {
+                proxy_count: null,
+                certificate_count: null,
+                nginx_version: null,
+                acmesh_version: null,
+                errMessages: [],
+            }
+        },
+        async created() {
+            let response = await this.$http.get('/home-data');
+            console.log(response);
+            this.proxy_count = response.data.proxy_count;
+            this.certificate_count = response.data.certificate_count;
+            this.nginx_version = response.data.nginx_version;
+            this.acmesh_version = response.data.acmesh_version;
+            this.errMessages = response.data.errMessages;
+        },
     }
 </script>
