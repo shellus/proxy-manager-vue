@@ -17,7 +17,7 @@
 <template>
     <div>
         <div class="line" v-for="(line, i) of value" :key="i">
-            <el-input size="small" v-model="value[i][valueKey]"></el-input>
+            <el-input :placeholder="placeholder" @keyup.native.ctrl.enter.prevent="addLine(i)" size="small" v-model="value[i][valueKey]"></el-input>
             <i style="color: #42b983;" class="el-icon-circle-plus-outline" @click="addLine(i)"></i>
             <i v-if="showDelete" style="color: #b9ae10;" class="el-icon-remove-outline" @click="removeLine(i)"></i>
         </div>
@@ -29,6 +29,7 @@
         props: {
             valueKey: String,
             value: Array,
+            placeholder: String,
         },
         computed: {
             showDelete() {

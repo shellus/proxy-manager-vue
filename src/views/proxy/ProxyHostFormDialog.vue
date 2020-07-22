@@ -14,18 +14,11 @@
                      label-suffix="："
                      label-position="top"
                      @submit.native.prevent="submit">
+                <el-form-item label="名称（备注）">
+                    <el-input v-model="formData.name"></el-input>
+                </el-form-item>
                 <el-form-item label="域名">
-                    <multi-input v-model="formData.domains" value-key="domain"></multi-input>
-                    <!--                    <el-select-->
-                    <!--                        style="width: 100%;"-->
-                    <!--                        v-model="formData.domains"-->
-                    <!--                        multiple-->
-                    <!--                        filterable-->
-                    <!--                        allow-create-->
-                    <!--                        value-key="domain"-->
-                    <!--                        placeholder="请输入域名后回车键确认"-->
-                    <!--                        default-first-option>-->
-                    <!--                    </el-select>-->
+                    <multi-input v-model="formData.domains" value-key="domain" placeholder="按下ctrl+enter可以快捷添加一行"></multi-input>
                 </el-form-item>
                 <el-form-item label="源站地址">
                     <el-input v-model="formData.target_address" placeholder="输入http开头的完整地址"></el-input>
@@ -39,9 +32,8 @@
                     <el-checkbox v-model="formData.enable_http2" :disabled="!formData.enable_https">HTTP2</el-checkbox>
                 </el-form-item>
                 <el-form-item label="选择证书">
-                    <el-select v-model="formData.certificate_id" :disabled="!formData.enable_https">
-                        <el-option label="WEBROOT签发" value="webroot"></el-option>
-                    </el-select>
+                    <certificate-select v-model="formData.certificate_id" :disabled="!formData.enable_https">
+                    </certificate-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" native-type="submit">保存</el-button>
@@ -53,10 +45,11 @@
 </template>
 <script>
     import MultiInput from "@/components/MultiInput";
+    import CertificateSelect from "@/components/CertificateSelect";
 
     export default {
         name: "ProxyHostFormDialog",
-        components: {MultiInput},
+        components: {CertificateSelect, MultiInput},
         computed: {},
         watch: {
             'formData.enable_https': function (newValue) {
@@ -71,6 +64,8 @@
         data() {
             let initData = {
                 domains: [{domain: ''}],
+                http_port: 80,
+                https_port: 443,
                 target_address: '',
                 enable_https: false,
                 enable_https_only: false,
@@ -87,7 +82,7 @@
         methods: {
             async submit() {
                 let response = await this.$http.post('/proxy/save', this.formData);
-                this.$message.success(response.msg)
+                this.$message.success({message: response.msg, onClose: this.onClose})
             },
             async open(formData) {
                 if (formData) {

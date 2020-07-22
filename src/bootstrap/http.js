@@ -22,8 +22,7 @@ axios.interceptors.response.use(
         // 发生网络错误后会走到这里
         if (err.response && err.response.data && err.response.data.message) {
             window.app.$message({type: 'error', message: err.response.data.message})
-        }
-        {
+        } else {
             console.log(err);
             window.app.$message({type: 'error', message: "请求异常"})
         }

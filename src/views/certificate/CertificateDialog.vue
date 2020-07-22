@@ -9,13 +9,23 @@
         :visible.sync="dialogVisible"
         width="30%">
         <div class="block">
-            上传证书
-            <el-form class="min-form" @submit.native.prevent="submit">
-                <el-form-item label="路径">
-                    <el-input v-model="formData.path"></el-input>
+            <el-form @submit.native.prevent="submit">
+                <el-form-item label="证书主域名">
+                    <el-input v-model="formData.main_domain"></el-input>
+                </el-form-item>
+                <el-form-item label="证书路径">
+                    <el-input v-model="formData.cert_path"></el-input>
+                </el-form-item>
+                <el-form-item label="证书私钥路径">
+                    <el-input v-model="formData.cert_key_path"></el-input>
                 </el-form-item>
                 <el-form-item label="过期时间">
-                    <el-input v-model="formData.expires_time"></el-input>
+                        <el-date-picker
+                            style="width: 100%;"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            v-model="formData.expires_time"
+                            type="datetime">
+                        </el-date-picker>
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" native-type="submit">保存</el-button>
@@ -29,8 +39,6 @@
         name: 'CertificateDialog',
         data() {
             let initData = {
-                path: '',
-                expires_time: null,
             };
             return {
                 dialogVisible: false,
@@ -43,7 +51,7 @@
         methods: {
             async submit() {
                 let response = await this.$http.post('/certificate/certificate/save', this.formData);
-                this.$message.success(response.msg)
+                this.$message.success({message: response.msg, onClose: this.onClose})
             },
             async open(formData) {
                 if (formData) {

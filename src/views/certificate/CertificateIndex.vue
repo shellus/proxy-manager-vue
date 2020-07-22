@@ -5,21 +5,24 @@
     <div>
         <div class="page-header">
             <el-button type="success" @click="$refs['certificate-dialog'].open()">手动添加证书</el-button>
-            <el-button type="success" @click="goCertificateConfig">管理签发配置</el-button>
+            <el-button type="success" @click="goCertificateConfig" plain>管理签发配置</el-button>
         </div>
         <div class="block">
-            <div v-for="(certificate, i) of data.data" :key="i">
-                <div>
-                    {{ certificate.created_at }}
-                </div>
-                <div @click="goEdit(certificate)">编辑</div>
-                <div @click="goRemove(certificate)">删除</div>
-            </div>
+            <el-table ref="table" :data="data.data" border style="width: 100%">
+                <el-table-column prop="main_domain" label="证书主域名" align="center"></el-table-column>
+                <el-table-column prop="created_at" label="创建时间" align="center" width="170"></el-table-column>
+                <el-table-column prop="expires_time" label="过期时间" align="center" width="170"></el-table-column>
+                <el-table-column label="操作" align="center" width="200">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="goEdit(scope.row)">编辑</el-button>
+                        <el-button size="mini" @click="goRemove(scope.row, scope.$index)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination @current-change="jump" :current-page="searchForm.page" :page-size="data.per_page" :total="data.total" layout="total, prev, pager, next, jumper">
+            </el-pagination>
         </div>
         <certificate-dialog ref="certificate-dialog"></certificate-dialog>
-        <el-pagination @current-change="jump" :current-page="searchForm.page" :page-size="data.per_page"
-                       layout="total, prev, pager, next, jumper" :total="data.total">
-        </el-pagination>
     </div>
 </template>
 <script>
@@ -53,10 +56,11 @@
             goEdit(certificate) {
                 this.$refs['certificate-dialog'].open(certificate)
             },
-            async goRemove(certificate) {
+            async goRemove(certificate, index) {
                 await this.$confirm('确定删除 ' + ' ？', '删除', {});
                 let response = await this.$http.post('/certificate/certificate/remove', {id: certificate.id});
-                this.$message.success(response.msg)
+                this.$message.success(response.msg);
+                this.data.data.splice(index, 1)
             }
         }
     }

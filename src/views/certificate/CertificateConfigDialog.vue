@@ -9,8 +9,10 @@
         :visible.sync="dialogVisible"
         width="30%">
         <div class="block">
-            SSL配置
             <el-form class="min-form" @submit.native.prevent="submit">
+                <el-form-item label="名称（备注）">
+                    <el-input v-model="formData.name"></el-input>
+                </el-form-item>
                 <el-form-item label="证书签发类型">
                     <el-select style="width: 100%;" v-model="formData.type">
                         <el-option v-for="(type,i) of TYPE_TITLES" :key="i" :value="parseInt(i)"
@@ -41,7 +43,6 @@
         },
         data() {
             let initData = {
-                type: null,
                 payload: {},
             };
             return {
@@ -55,13 +56,11 @@
         methods: {
             async submit() {
                 let response = await this.$http.post('/certificate/certificate-config/save', this.formData);
-                this.$message.success(response.msg)
+                this.$message.success({message: response.msg, onClose: this.onClose})
             },
             async open(formData) {
                 if (formData) {
-                    console.log(this.TYPE_TITLES);
                     this.formData = JSON.parse(JSON.stringify(formData));
-                    // this.formData.type = formData.type;
                 }
                 this.dialogVisible = true;
             },
