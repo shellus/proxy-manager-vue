@@ -4,7 +4,7 @@
 <template>
     <el-dialog
         :before-close="onClose"
-        title="上传证书"
+        title="手动添加证书"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
         width="30%">
@@ -36,7 +36,7 @@
 </template>
 <script>
     export default {
-        name: 'CertificateDialog',
+        name: 'CertificateManualUploadDialog',
         data() {
             let initData = {
             };
