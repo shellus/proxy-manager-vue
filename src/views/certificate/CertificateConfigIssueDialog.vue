@@ -7,7 +7,7 @@
         title="从签发配置创建证书"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        width="30%">
+        width="40em">
         <div class="block">
             <el-form ref="form" :model="formData"
                      label-suffix="："

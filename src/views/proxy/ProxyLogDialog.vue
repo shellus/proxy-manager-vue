@@ -4,7 +4,7 @@
 <template>
     <el-dialog
         :before-close="onClose"
-        title="证书日志"
+        title="代理日志"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
         width="40em">
@@ -18,7 +18,9 @@
                 <el-table-column prop="created_at" label="时间" align="center" width="170"></el-table-column>
                 <el-table-column label="详情" align="center">
                     <template slot-scope="scope">
-                        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" :title="scope.row.detail">{{ scope.row.detail }}</div>
+                        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" :title="scope.row.detail">
+                            {{ scope.row.detail }}
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -27,9 +29,10 @@
 </template>
 <script>
     export default {
-        name: 'CertificateLogDialog',
+        name: 'ProxyLogDialog',
         props: {
             OP_TYPE_TITLES: Object,
+            OP_TYPE_NAMES: Object,
         },
         data() {
             return {
@@ -42,7 +45,7 @@
         methods: {
             async open(certificate) {
                 this.data = null;
-                let response = await this.$http.get('/certificate/certificate/log', {params: {id: certificate.id}});
+                let response = await this.$http.get('/proxy/log', {params: {id: certificate.id}});
                 this.data = response.data;
 
                 this.dialogVisible = true;

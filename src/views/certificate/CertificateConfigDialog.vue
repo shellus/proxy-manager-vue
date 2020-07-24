@@ -7,7 +7,7 @@
         title="SSL配置"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        width="30%">
+        width="40em">
         <div class="block">
             <el-form class="min-form" @submit.native.prevent="submit">
                 <el-form-item label="名称（备注）">

@@ -10,12 +10,18 @@
         <div class="block">
             <el-table ref="table" :data="data.data" border style="width: 100%">
                 <el-table-column prop="name" label="名称" align="center"></el-table-column>
+                <el-table-column label="状态" align="center">
+                    <template slot-scope="scope">
+                        {{ STATUS_TITLES[scope.row.status] }}
+                    </template>
+                </el-table-column>
                 <el-table-column prop="created_at" label="创建时间" align="center" width="170"></el-table-column>
-                <el-table-column label="操作" align="center" width="240">
+                <el-table-column label="操作" align="center" width="300">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="goEdit(scope.row)">编辑</el-button>
                         <el-button size="mini" @click="goRemove(scope.row, scope.$index)">删除</el-button>
                         <el-button size="mini" @click="goGenerate(scope.row)">生成</el-button>
+                        <el-button size="mini" @click="$refs['proxy-log-dialog'].open(scope.row)">日志</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -23,21 +29,30 @@
             </el-pagination>
         </div>
         <proxy-host-form-dialog ref="proxy-host-form-dialog"></proxy-host-form-dialog>
+        <proxy-log-dialog :OP_TYPE_NAMES="OP_TYPE_NAMES" :OP_TYPE_TITLES="OP_TYPE_TITLES" ref="proxy-log-dialog"></proxy-log-dialog>
     </div>
 </template>
 <script>
     import ProxyHostFormDialog from "@/views/proxy/ProxyHostFormDialog";
+    import ProxyLogDialog from "@/views/proxy/ProxyLogDialog";
 
     export default {
         name: 'ProxyHostIndex',
-        components: {ProxyHostFormDialog},
+        components: {ProxyLogDialog, ProxyHostFormDialog},
         data() {
             return {
+                OP_TYPE_TITLES: null,
+                OP_TYPE_NAMES: null,
+                STATUS_TITLES: null,
                 searchForm: {},
                 data: []
             }
         },
-        created() {
+        async created() {
+            let response = await this.$http.get('/proxy/index-data');
+            this.STATUS_TITLES = response.data.STATUS_TITLES;
+            this.OP_TYPE_TITLES = response.data.OP_TYPE_TITLES;
+            this.OP_TYPE_NAMES = response.data.OP_TYPE_NAMES;
             this.search()
         },
         methods: {

@@ -7,7 +7,7 @@
         title="手动添加证书"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        width="30%">
+        width="40em">
         <div class="block">
             <el-form @submit.native.prevent="submit">
                 <el-form-item label="证书主域名">

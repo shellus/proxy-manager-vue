@@ -35,6 +35,13 @@
                     <certificate-select v-model="formData.certificate_id" :disabled="!formData.enable_https">
                     </certificate-select>
                 </el-form-item>
+                <el-form-item label="选择证书签发">
+                    <certificate-config-select v-model="formData.certificate_config_id" :disabled="!formData.enable_https">
+                    </certificate-config-select>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox v-model="formData.deploy_now">立即部署</el-checkbox>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" native-type="submit">保存</el-button>
                     <el-button type="default" @click="onClose">取消</el-button>
@@ -46,10 +53,11 @@
 <script>
     import MultiInput from "@/components/MultiInput";
     import CertificateSelect from "@/components/CertificateSelect";
+    import CertificateConfigSelect from "@/components/CertificateConfigSelect";
 
     export default {
         name: "ProxyHostFormDialog",
-        components: {CertificateSelect, MultiInput},
+        components: {CertificateConfigSelect, CertificateSelect, MultiInput},
         computed: {},
         watch: {
             'formData.enable_https': function (newValue) {
@@ -57,7 +65,8 @@
                     this.formData.enable_https_only = false;
                     this.formData.enable_https_hsts = false;
                     this.formData.enable_http2 = false;
-                    this.formData.certificate_id = null
+                    this.formData.certificate_id = null;
+                    this.formData.certificate_config_id = null
                 }
             },
         },
@@ -72,6 +81,8 @@
                 enable_https_hsts: false,
                 enable_http2: false,
                 certificate_id: null,
+                certificate_config_id: null,
+                deploy_now: true,
             };
             return {
                 dialogVisible: false,
