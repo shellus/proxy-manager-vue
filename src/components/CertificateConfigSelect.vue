@@ -22,7 +22,7 @@
         },
         methods: {
             onSelect(value) {
-                this.$emit('input', value)
+                this.$emit('input', value === '' ? null : value)
             },
         }
     }
