@@ -7,7 +7,7 @@
         title="设置HTTP代理"
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
-        width="30%">
+        width="40em">
 
         <div v-if="dialogVisible">
             <el-form ref="form" :model="formData"
