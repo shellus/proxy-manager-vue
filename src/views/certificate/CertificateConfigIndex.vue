@@ -25,7 +25,7 @@
             <el-pagination @current-change="jump" :current-page="searchForm.page" :page-size="data.per_page" :total="data.total" layout="total, prev, pager, next, jumper">
             </el-pagination>
         </div>
-        <certificate-config-dialog :TYPE_TITLES="TYPE_TITLES"
+        <certificate-config-dialog @success="search" :TYPE_TITLES="TYPE_TITLES"
                                    ref="certificate-config-dialog"></certificate-config-dialog>
     </div>
 </template>

@@ -28,8 +28,8 @@
             <el-pagination @current-change="jump" :current-page="searchForm.page" :page-size="data.per_page" :total="data.total" layout="total, prev, pager, next, jumper">
             </el-pagination>
         </div>
-        <certificate-manual-upload-dialog ref="certificate-manual-upload-dialog"></certificate-manual-upload-dialog>
-        <certificate-config-issue-dialog ref="certificate-config-issue-dialog"></certificate-config-issue-dialog>
+        <certificate-manual-upload-dialog @success="search" ref="certificate-manual-upload-dialog"></certificate-manual-upload-dialog>
+        <certificate-config-issue-dialog @success="search" ref="certificate-config-issue-dialog"></certificate-config-issue-dialog>
         <certificate-log-dialog :OP_TYPE_TITLES="OP_TYPE_TITLES" ref="certificate-log-dialog"></certificate-log-dialog>
     </div>
 </template>

@@ -8,6 +8,7 @@
     export default {
         name: 'CertificateSelect',
         props: {
+            request: Object,
             value: [Number],
             disabled: Boolean
         },
@@ -17,7 +18,7 @@
             }
         },
         async created() {
-            let response = await this.$http.get('/certificate/certificate/select-list');
+            let response = await this.$http.get('/certificate/certificate/select-list', {params: this.request});
             this.data = response.data
         },
         methods: {

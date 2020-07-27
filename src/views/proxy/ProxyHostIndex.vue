@@ -20,7 +20,7 @@
                     <template slot-scope="scope">
                         <el-button size="mini" @click="goEdit(scope.row)">编辑</el-button>
                         <el-button size="mini" @click="goRemove(scope.row, scope.$index)">删除</el-button>
-                        <el-button size="mini" @click="goGenerate(scope.row)">生成</el-button>
+                        <el-button size="mini" @click="goGenerate(scope.row)">部署</el-button>
                         <el-button size="mini" @click="$refs['proxy-log-dialog'].open(scope.row)">日志</el-button>
                     </template>
                 </el-table-column>
@@ -28,7 +28,7 @@
             <el-pagination @current-change="jump" :current-page="searchForm.page" :page-size="data.per_page" :total="data.total" layout="total, prev, pager, next, jumper">
             </el-pagination>
         </div>
-        <proxy-host-form-dialog ref="proxy-host-form-dialog"></proxy-host-form-dialog>
+        <proxy-host-form-dialog @success="search" ref="proxy-host-form-dialog"></proxy-host-form-dialog>
         <proxy-log-dialog :OP_TYPE_NAMES="OP_TYPE_NAMES" :OP_TYPE_TITLES="OP_TYPE_TITLES" ref="proxy-log-dialog"></proxy-log-dialog>
     </div>
 </template>

@@ -32,7 +32,7 @@
                     <el-checkbox v-model="formData.enable_http2" :disabled="!formData.enable_https">HTTP2</el-checkbox>
                 </el-form-item>
                 <el-form-item label="选择证书">
-                    <certificate-select v-model="formData.certificate_id" :disabled="!formData.enable_https">
+                    <certificate-select :request="{only_available: true}" v-model="formData.certificate_id" :disabled="!formData.enable_https">
                     </certificate-select>
                 </el-form-item>
                 <el-form-item label="选择证书签发">
@@ -93,7 +93,7 @@
         methods: {
             async submit() {
                 let response = await this.$http.post('/proxy/save', this.formData);
-                this.$message.success({message: response.msg, onClose: this.onClose})
+                this.$message.success({message: response.msg, onClose: ()=>this.onClose() + this.$emit('success', response.data)})
             },
             async open(formData) {
                 if (formData) {

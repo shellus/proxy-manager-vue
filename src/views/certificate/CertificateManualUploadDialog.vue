@@ -51,7 +51,7 @@
         methods: {
             async submit() {
                 let response = await this.$http.post('/certificate/certificate/save', this.formData);
-                this.$message.success({message: response.msg, onClose: this.onClose})
+                this.$message.success({message: response.msg, onClose: ()=>this.onClose() + this.$emit('success', response.data)})
             },
             async open(formData) {
                 if (formData) {

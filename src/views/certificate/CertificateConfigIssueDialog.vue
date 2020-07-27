@@ -19,7 +19,9 @@
                 <el-form-item label="证书签发配置">
                     <certificate-config-select v-model="formData.certificate_config_id"></certificate-config-select>
                 </el-form-item>
-
+                <el-form-item label="">
+                    <el-checkbox v-model="formData.issue_now">立即签发</el-checkbox>
+                </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" native-type="submit">保存</el-button>
                 </el-form-item>
@@ -36,6 +38,7 @@
         data() {
             let initData = {
                 domains: [{domain: ''}],
+                issue_now: true,
             };
             return {
                 dialogVisible: false,
@@ -50,7 +53,7 @@
                 let postData = JSON.parse(JSON.stringify(this.formData));
                 postData['domains'] = postData['domains'].map(v=>v.domain);
                 let response = await this.$http.post('/certificate/certificate/create-from-config', postData);
-                this.$message.success({message: response.msg, onClose: this.onClose})
+                this.$message.success({message: response.msg, onClose: ()=>this.onClose() + this.$emit('success', response.data)})
             },
             async open() {
                 this.formData = JSON.parse(JSON.stringify(this.initData));
