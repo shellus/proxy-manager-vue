@@ -1,5 +1,5 @@
 <template>
-    <el-select clearable :value="value" @change="onSelect" filterable :disabled="disabled">
+    <el-select :placeholder="placeholder" clearable :value="value" @change="onSelect" filterable :disabled="disabled">
         <el-option v-for="item of data" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
 </template>
@@ -8,8 +8,10 @@
     export default {
         name: 'CertificateConfigSelect',
         props: {
+            request: Object,
             value: [Number],
-            disabled: Boolean
+            disabled: Boolean,
+            placeholder: String,
         },
         data() {
             return {
@@ -17,7 +19,7 @@
             }
         },
         async created() {
-            let response = await this.$http.get('/certificate/certificate-config/select-list');
+            let response = await this.$http.get('/certificate/certificate-config/select-list', {params: this.request});
             this.data = response.data
         },
         methods: {

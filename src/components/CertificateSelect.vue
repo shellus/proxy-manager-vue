@@ -1,5 +1,5 @@
 <template>
-    <el-select clearable :value="value" @change="onSelect" filterable :disabled="disabled">
+    <el-select :placeholder="placeholder" clearable :value="value" @change="onSelect" filterable :disabled="disabled">
         <el-option v-for="item of data" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
 </template>
@@ -10,7 +10,8 @@
         props: {
             request: Object,
             value: [Number],
-            disabled: Boolean
+            disabled: Boolean,
+            placeholder: String,
         },
         data() {
             return {

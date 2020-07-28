@@ -23,22 +23,29 @@
                 <el-form-item label="源站地址">
                     <el-input v-model="formData.target_address" placeholder="输入http开头的完整地址"></el-input>
                 </el-form-item>
-                <el-form-item label="加密">
-                    <el-checkbox v-model="formData.enable_https">启用HTTPS</el-checkbox>
-                    <el-checkbox v-model="formData.enable_https_only" :disabled="!formData.enable_https">仅HTTPS
-                    </el-checkbox>
-                    <el-checkbox v-model="formData.enable_https_hsts" :disabled="!formData.enable_https">启用HSTS
-                    </el-checkbox>
-                    <el-checkbox v-model="formData.enable_http2" :disabled="!formData.enable_https">HTTP2</el-checkbox>
-                </el-form-item>
-                <el-form-item label="选择证书">
-                    <certificate-select :request="{only_available: true}" v-model="formData.certificate_id" :disabled="!formData.enable_https">
-                    </certificate-select>
-                </el-form-item>
-                <el-form-item label="选择证书签发">
-                    <certificate-config-select v-model="formData.certificate_config_id" :disabled="!formData.enable_https">
-                    </certificate-config-select>
-                </el-form-item>
+                <div class="">
+                    <el-form-item label="加密">
+                        <el-checkbox v-model="formData.enable_https">启用HTTPS</el-checkbox>
+                        <el-checkbox v-model="formData.enable_https_only" :disabled="!formData.enable_https">仅HTTPS
+                        </el-checkbox>
+                        <el-checkbox v-model="formData.enable_https_hsts" :disabled="!formData.enable_https">启用HSTS
+                        </el-checkbox>
+                        <el-checkbox v-model="formData.enable_http2" :disabled="!formData.enable_https">HTTP2</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="证书">
+                        <el-tabs style="padding-left: 20px;" type="card" :value="'first'" @tab-click="()=>{formData.certificate_id = formData.certificate_config_id = null}">
+                            <el-tab-pane label="选择证书" name="first" :disabled="!formData.enable_https">
+                                    <certificate-select placeholder="选择一个证书" :request="{only_available: true}" v-model="formData.certificate_id" :disabled="!formData.enable_https">
+                                    </certificate-select>
+                            </el-tab-pane>
+                            <el-tab-pane label="选择证书签发" name="second" :disabled="!formData.enable_https">
+                                    <certificate-config-select placeholder="选择一个证书签发配置" v-model="formData.certificate_config_id" :disabled="!formData.enable_https">
+                                    </certificate-config-select>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </el-form-item>
+                </div>
+
                 <el-form-item label="">
                     <el-checkbox v-model="formData.deploy_now">立即部署</el-checkbox>
                 </el-form-item>
